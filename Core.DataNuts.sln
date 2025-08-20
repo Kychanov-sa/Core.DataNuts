@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataNuts", "src\Core.DataNuts\Core.DataNuts.csproj", "{2B2CEC52-1B15-44EA-B10B-1D87AADDF6BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5CFE50E7-B4B2-4103-BCD4-9E71BA9563ED}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B2CEC52-1B15-44EA-B10B-1D87AADDF6BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B2CEC52-1B15-44EA-B10B-1D87AADDF6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B2CEC52-1B15-44EA-B10B-1D87AADDF6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B2CEC52-1B15-44EA-B10B-1D87AADDF6BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
