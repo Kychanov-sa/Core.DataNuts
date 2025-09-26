@@ -24,9 +24,9 @@
 
 |Тип|Смещение|Имя поля|Описание|
 |---|---|--------|--------|
-|DWORD|0|Signature|Сигнатура ореха|
-|WORD|4|Version|Версия структуры данных ореха. Имеет значение 0x0100|
-|QWORD|6|Created|Дата создания ореха|
+|WORD|0|Signature|Сигнатура ореха|
+|WORD|2|Version|Версия структуры данных ореха|
+|QWORD|4|Created|Дата создания ореха|
 |GUID|12|Id|Идентификатор ореха, определяемый хранимыми данными|
 |QWORD|12|CoreHash|Значение хэша ядра ореха|
 |DWORD|20|CoreSize|Размер ядра ореха в байтах|
@@ -68,7 +68,7 @@
 <CoreData>
 ```
 
-Значение Version в заголовке DataNutHeader имеет значение 0x0110.
+Значение Version в заголовке DataNutHeader имеет значение 0x3131.
 Размер блока метаданных определяется как разницы между значением CoreOffset и размером структуры DataNutHeader:
 ```csharp
 uint32 metadataSize = header.CoreOffset - sizeof(DataNutHeader);
