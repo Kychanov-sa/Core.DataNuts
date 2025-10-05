@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GlacialBytes.Core.DataNuts;
 
-namespace GlacialBytes.Core.DataNuts
+/// <summary>
+/// Подпись ореха некорректна.
+/// </summary>
+public class InvalidNutSignatureException : Exception
 {
-  public class InvalidNutSignatureException : Exception
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  public InvalidNutSignatureException()
+    : base("Invalid data nut signature.")
   {
   }
 }

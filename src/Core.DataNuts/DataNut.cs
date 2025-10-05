@@ -44,4 +44,9 @@ public record DataNut
   /// Размер ядра данных.
   /// </summary>
   public int CoreSize { get; init; }
+
+  /// <summary>
+  /// Размер ядра данных.
+  /// </summary>
+  public required IReadOnlyDictionary<string, string> Metadata { get; init; }
 }

@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Specialized;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GlacialBytes.Core.DataNuts.IO;
 
@@ -48,12 +50,18 @@ public class DataNutReader : IDisposable, IAsyncDisposable
   public DataNutCoreType CoreType { get; private set; }
 
   /// <summary>
+  /// Коллекция метаданных.
+  /// </summary>
+  public Dictionary<string, string> Metadata { get; private set; } = [];
+
+  /// <summary>
   /// Конструктор.
   /// </summary>
   /// <param name="stream">Поток с данными ореха.</param>
   /// <param name="leaveOpen">true, если необходимо оставить поток открытым, после удаления объекта DataNutStream; иначе false.</param>
   /// <returns>Поток ядра.</returns>
   /// <exception cref="EndOfStreamException">Был достигнут конец потока при чтении данных.</exception>
+  /// <exception cref="InvalidNutSignatureException">Подпись ореха некорректна.</exception>
   public DataNutReader(Stream stream, bool leaveOpen = false)
   {
     int headerSize = Marshal.SizeOf<DataNutHeader>();
@@ -65,7 +73,7 @@ public class DataNutReader : IDisposable, IAsyncDisposable
     var header = MemoryMarshal.Read<DataNutHeader>(buffer);
 
     if (header.Signature != DataNutHeader.DataNutSignature)
-      throw new InvalidNutSignatureException();
+      throw new InvalidNutSignatureException();   
 
     NutCreated = new DateTime(header.Created);
     NutId = header.Id;
@@ -73,6 +81,34 @@ public class DataNutReader : IDisposable, IAsyncDisposable
     CoreSize = header.CoreSize;
     CoreHash = header.CoreHash;
     CoreType = (DataNutCoreType)header.CoreType;
+
+    if ((DataNutVersion)header.Version == DataNutVersion.Version_1_1)
+    {
+      int metadataSize = (int)header.CoreOffset - headerSize;
+      if (metadataSize > 0)
+      {
+        Span<byte> metadataBuffer = stackalloc byte[metadataSize];
+        int metadataReadBytes = stream.Read(metadataBuffer);
+        if (metadataReadBytes != metadataSize)
+          throw new EndOfStreamException();
+
+        string metadataString = Encoding.UTF8.GetString(metadataBuffer);
+        if (!String.IsNullOrEmpty(metadataString))
+        {
+          foreach(string? item in metadataString.Split('\n'))
+          {
+            if (!String.IsNullOrWhiteSpace(item))
+            {
+              var nameValuePair = item.Split(':');
+              if (nameValuePair.Length == 1)
+                Metadata.Add(nameValuePair[0], String.Empty);
+              else
+                Metadata.Add(nameValuePair[0], nameValuePair[1]);
+            }
+          }
+        }
+      }
+    }
 
     stream.Seek(header.CoreOffset, SeekOrigin.Begin);
     _coreStream = stream;
