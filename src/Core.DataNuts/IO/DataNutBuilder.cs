@@ -1,6 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.IO;
-using System.IO.Hashing;
+﻿using System.IO.Hashing;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -92,9 +90,12 @@ public sealed class DataNutBuilder
     var data = File.ReadAllBytes(fileName);
     if (data.Length == 0)
       throw new InvalidOperationException("Empty core is not allowed while building data nut.");
+    
+    string fileExtension = Path.GetExtension(fileName);
+    DataNutCoreType coreType = CoreTypeHelper.FromFileExtension(fileExtension);
 
     var builder = new DataNutBuilder();
-    builder.SetDataCore(data, DataNutCoreType.GenericBinary);
+    builder.SetDataCore(data, coreType);
     return builder;
   }
 
